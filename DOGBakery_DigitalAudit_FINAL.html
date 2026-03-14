@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOG Bakery — Digital Presence Audit 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f0e0d; --ink2: #2c2b29; --ink3: #5a5955; --ink4: #9a9895;
+    --paper: #faf8f4; --paper2: #f2ede4; --paper3: #e8e0d4;
+    --red: #c93434; --red-light: #fdf0f0;
+    --amber: #d4870a; --amber-light: #fdf6e8;
+    --green: #1a7a4a; --green-light: #edf7f2;
+    --teal: #0e6b7a; --teal-light: #eaf5f7;
+    --rule: #ddd8d0;
+  }
+  html { font-size: 16px; }
+  body { background: var(--paper); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .cover { background: var(--ink); color: white; padding: 80px 72px 72px; position: relative; overflow: hidden; }
+  .cover::before { content: ''; position: absolute; top: -80px; right: -80px; width: 500px; height: 500px; border-radius: 50%; background: rgba(201,52,52,0.06); pointer-events: none; }
+  .cover-tag { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+  .cover-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--red); }
+  .cover h1 { font-family: 'Playfair Display', serif; font-size: 60px; font-weight: 900; line-height: 1.02; letter-spacing: -.02em; margin-bottom: 20px; max-width: 680px; }
+  .cover h1 span { color: var(--red); }
+  .cover-sub { font-size: 15px; color: rgba(255,255,255,0.45); font-weight: 300; margin-bottom: 60px; }
+  .cover-meta { display: flex; gap: 48px; flex-wrap: wrap; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .cover-meta-item label { display: block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 5px; }
+  .cover-meta-item span { font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 0 52px; }
+  .section { padding: 72px 0 0; }
+  .section:last-child { padding-bottom: 80px; }
+  .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--red); letter-spacing: .12em; flex-shrink: 0; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 27px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+  .prose { font-size: 15px; line-height: 1.85; color: var(--ink2); margin-bottom: 20px; max-width: 740px; }
+  .prose strong { font-weight: 600; color: var(--ink); }
+  .sub-h { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); margin: 36px 0 12px; letter-spacing: -.01em; }
+
+  .callout { border-left: 3px solid var(--red); background: var(--red-light); padding: 20px 26px; margin: 28px 0; border-radius: 0 6px 6px 0; }
+  .callout p { font-size: 15px; line-height: 1.8; color: var(--ink2); font-style: italic; }
+  .callout-green { border-left-color: var(--green); background: var(--green-light); }
+  .callout-amber { border-left-color: var(--amber); background: var(--amber-light); }
+  .callout-teal { border-left-color: var(--teal); background: var(--teal-light); }
+
+  .insight-box { background: var(--ink); border-radius: 10px; padding: 32px 36px; margin: 32px 0; }
+  .insight-box .insight-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+  .insight-box p { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.82); }
+  .insight-box strong { color: white; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 28px 0; }
+  .stat-cell { background: var(--ink); padding: 32px 24px; text-align: center; }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; color: var(--amber); line-height: 1; margin-bottom: 10px; }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.38); line-height: 1.5; }
+
+  .scorecard { margin: 28px 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .score-row { display: grid; grid-template-columns: 190px 68px 1fr; border-bottom: 1px solid var(--rule); align-items: stretch; }
+  .score-row:last-child { border-bottom: none; }
+  .score-row.header { background: var(--ink); }
+  .score-cat { padding: 14px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink); display: flex; align-items: center; background: var(--paper2); border-right: 1px solid var(--rule); }
+  .score-row.header .score-cat { color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; font-weight: 400; background: transparent; border-right-color: rgba(255,255,255,0.08); }
+  .score-num { padding: 14px 0; text-align: center; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--rule); }
+  .score-row.header .score-num { color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; font-weight: 400; border-right-color: rgba(255,255,255,0.08); }
+  .score-bad { color: var(--red); } .score-mid { color: var(--amber); } .score-good { color: var(--green); }
+  .score-note { padding: 14px 18px; font-size: 13px; color: var(--ink3); display: flex; align-items: center; line-height: 1.55; }
+  .score-row.header .score-note { color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; }
+
+  .metric-table { margin: 24px 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .metric-row { display: grid; grid-template-columns: 240px 1fr; border-bottom: 1px solid var(--rule); }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-key { padding: 13px 18px; font-size: 12px; font-weight: 500; color: var(--ink4); background: var(--paper2); display: flex; align-items: center; border-right: 1px solid var(--rule); font-family: 'DM Mono', monospace; line-height: 1.4; }
+  .metric-val { padding: 13px 18px; font-size: 13.5px; font-weight: 500; color: var(--ink); display: flex; align-items: center; background: var(--paper); line-height: 1.5; }
+  .metric-val.bad { color: var(--red); } .metric-val.warn { color: var(--amber); } .metric-val.good { color: var(--green); }
+
+  .bullet-list { list-style: none; margin: 16px 0 24px; display: flex; flex-direction: column; gap: 14px; }
+  .bullet-list li { font-size: 14.5px; line-height: 1.8; color: var(--ink2); padding-left: 20px; position: relative; }
+  .bullet-list li::before { content: '—'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+  .bullet-list.green li::before { color: var(--green); }
+  .bullet-list.teal li::before { color: var(--teal); }
+
+  .action-card { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 28px 0; }
+  .action-header { background: var(--ink); padding: 20px 26px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .action-num { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: .1em; }
+  .action-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: white; flex: 1; min-width: 200px; }
+  .badge { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; padding: 4px 10px; border-radius: 100px; font-weight: 500; }
+  .badge-red { background: rgba(201,52,52,0.25); color: #ff7070; }
+  .badge-amber { background: rgba(212,135,10,0.25); color: #f0a832; }
+  .badge-green { background: rgba(26,122,74,0.25); color: #4cc88a; }
+  .badge-teal { background: rgba(14,107,122,0.25); color: #4dc8db; }
+  .badge-gray { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+  .action-body { padding: 26px; background: var(--paper); }
+  .action-context { font-size: 14px; color: var(--ink3); margin-bottom: 20px; font-style: italic; line-height: 1.7; padding: 14px 18px; background: var(--paper2); border-radius: 6px; border-left: 2px solid var(--rule); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin: 24px 0; }
+  .col-panel { background: var(--paper); padding: 24px; }
+  .col-panel h4 { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .col-panel h4::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+  .col-panel.good h4 { color: var(--green); } .col-panel.good h4::before { background: var(--green); }
+  .col-panel.bad h4 { color: var(--red); } .col-panel.bad h4::before { background: var(--red); }
+
+  .playbook-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13.5px; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .playbook-table thead tr { background: var(--ink); }
+  .playbook-table thead th { padding: 13px 16px; text-align: left; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .14em; color: rgba(255,255,255,0.4); font-weight: 400; }
+  .playbook-table tbody tr { border-bottom: 1px solid var(--rule); }
+  .playbook-table tbody tr:last-child { border-bottom: none; }
+  .playbook-table tbody tr:nth-child(odd) td { background: var(--paper2); }
+  .playbook-table tbody tr:nth-child(even) td { background: var(--paper); }
+  .playbook-table td { padding: 14px 16px; vertical-align: top; line-height: 1.65; color: var(--ink2); }
+  .playbook-table td:first-child { font-weight: 600; color: var(--ink); white-space: nowrap; }
+
+  .roadmap { margin: 28px 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .roadmap-row { display: grid; grid-template-columns: 150px 1fr 1fr; border-bottom: 1px solid var(--rule); }
+  .roadmap-row:last-child { border-bottom: none; }
+  .roadmap-row.rhead { background: var(--ink); }
+  .roadmap-phase { padding: 16px 18px; font-size: 13px; font-weight: 600; color: var(--ink); display: flex; flex-direction: column; gap: 4px; background: var(--paper2); border-right: 1px solid var(--rule); line-height: 1.4; }
+  .roadmap-phase span { font-weight: 400; color: var(--ink4); font-size: 12px; }
+  .roadmap-row.rhead .roadmap-phase { color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; font-weight: 400; background: transparent; border-right-color: rgba(255,255,255,0.08); }
+  .roadmap-actions { padding: 16px 18px; font-size: 13.5px; color: var(--ink2); border-right: 1px solid var(--rule); line-height: 1.7; }
+  .roadmap-row.rhead .roadmap-actions { color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; border-right-color: rgba(255,255,255,0.08); }
+  .roadmap-metric { padding: 16px 18px; font-size: 13px; color: var(--green); font-weight: 500; line-height: 1.7; }
+  .roadmap-row.rhead .roadmap-metric { color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; }
+
+  .comp-table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; font-size: 13px; }
+  .comp-table thead tr { background: var(--ink); }
+  .comp-table thead th { padding: 13px 14px; text-align: left; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .13em; color: rgba(255,255,255,0.4); font-weight: 400; }
+  .comp-table tbody tr { border-bottom: 1px solid var(--rule); }
+  .comp-table tbody tr:last-child { border-bottom: none; }
+  .comp-table tbody tr:nth-child(odd) td { background: var(--paper2); }
+  .comp-table tbody tr:nth-child(even) td { background: var(--paper); }
+  .comp-table td { padding: 13px 14px; vertical-align: top; line-height: 1.6; color: var(--ink2); }
+  .comp-table td:first-child { font-weight: 600; color: var(--ink); }
+
+  .strength-table { margin: 24px 0; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+  .strength-row { display: grid; grid-template-columns: 210px 1fr; border-bottom: 1px solid var(--rule); }
+  .strength-row:last-child { border-bottom: none; }
+  .strength-key { padding: 16px 18px; font-size: 13px; font-weight: 600; color: var(--green); background: var(--green-light); display: flex; align-items: flex-start; border-right: 1px solid var(--rule); line-height: 1.5; }
+  .strength-val { padding: 16px 18px; font-size: 13.5px; color: var(--ink2); line-height: 1.8; background: var(--paper); }
+
+  .doc-footer { background: var(--paper2); border-top: 1px solid var(--rule); padding: 28px 52px; font-size: 12px; color: var(--ink4); display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+  @media print {
+    .cover, .action-header, .score-row.header, .roadmap-row.rhead, .comp-table thead tr, .playbook-table thead tr, .insight-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="container">
+    <div class="cover-tag">Confidential Digital Presence Audit</div>
+    <h1>DOG Bakery<br>by <span>Pets Naturally</span></h1>
+    <p class="cover-sub">dogbakeryonline.com &nbsp;·&nbsp; @dogbakeryonline &nbsp;·&nbsp; Traverse City, Michigan &nbsp;·&nbsp; Est. 2006</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><label>Prepared</label><span>March 2026</span></div>
+      <div class="cover-meta-item"><label>Platforms Audited</label><span>Instagram · TikTok · Facebook · Website · Google</span></div>
+      <div class="cover-meta-item"><label>Sections</label><span>13</span></div>
+      <div class="cover-meta-item"><label>Priority Actions</label><span>6</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">01</span><h2>Executive Summary</h2></div>
+    <p class="prose">DOG Bakery by Pets Naturally has been hand-crafting gourmet dog treats in Traverse City, Michigan since 2006. The product is exceptional. The customers are loyal — 217 Facebook reviews with a perfect 100% recommendation rate, 105 Google reviews at 4.8 stars. The woman-owned story is compelling. The visual product is made for social media. Nearly two decades of craft have built something genuinely worth talking about.</p>
+    <p class="prose">The digital presence has not kept pace. An Instagram account with 1,070 posts and 1,611 followers. A TikTok account averaging 9,900 views per video — with only 36 followers — where the algorithm is already distributing content to thousands of people and that reach is going completely uncaptured. A Facebook page where loyal customers leave 5-star reviews and posts get buried by an algorithm that has been quietly deprioritizing the page. A website with real ingredients, a real story, and a newsletter signup — but no star ratings, no cross-selling, and a platform that hasn't been updated in years. A direct competitor running paid Google ads intercepting brand-name searches today.</p>
+    <div class="insight-box">
+      <div class="insight-label">The Core Finding</div>
+      <p>DOG Bakery does not have a product problem, a story problem, or a customer loyalty problem. It has a <strong>translation problem</strong>. The ingredients for a dominant digital brand are all present. What's missing is the infrastructure to translate those ingredients into reach and revenue. Every recommendation in this report addresses one specific piece of that translation — and none of it requires starting over.</p>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">02</span><h2>Overall Scorecard</h2></div>
+    <div class="scorecard">
+      <div class="score-row header">
+        <div class="score-cat">Channel</div><div class="score-num">Score</div><div class="score-note">Verdict</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cat">Instagram</div><div class="score-num score-bad">2</div>
+        <div class="score-note">1,611 followers after 1,070 posts. 1.19% engagement rate — less than half the category benchmark. The content instinct is there. The strategy behind it isn't.</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cat">TikTok</div><div class="score-num score-mid">4</div>
+        <div class="score-note">36 followers. 9,900 average views per video. The algorithm is already distributing content to thousands of non-followers. No TikTok Shop found to capture that attention.</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cat">Facebook</div><div class="score-num score-mid">5</div>
+        <div class="score-note">5,500 followers. 217 reviews, 100% recommend. Post engagement averages ~20 likes — low relative to audience size, meaning organic reach is limited.</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cat">Website</div><div class="score-num score-bad">3</div>
+        <div class="score-note">Real story, real ingredients, newsletter signup — these are genuine strengths. But legacy platform, no star ratings, no cross-sell, and no email incentive are costing conversions daily.</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cat">Google / SEO</div><div class="score-num score-mid">5</div>
+        <div class="score-note">4.8 stars, 105 reviews. Business category could be optimized. A competitor is running paid ads on brand-name searches right now.</div>
+      </div>
+      <div class="score-row">
+        <div class="score-cat">Competitive Position</div><div class="score-num score-bad">3</div>
+        <div class="score-note">Authentic craft and story that competitors cannot replicate — but those advantages aren't being communicated at scale online.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">03</span><h2>Market Context — The Size of What's Being Left Behind</h2></div>
+    <p class="prose">The pet treat industry is not a niche. It is one of the fastest-growing consumer categories in the United States, and the premium, artisan, handmade segment — the exact segment DOG Bakery occupies — is growing faster than the overall market. Understanding this context matters because it reframes every recommendation below from "nice to have" to "urgent."</p>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-value">$10.5B</div><div class="stat-label">US pet treats market size in 2025</div></div>
+      <div class="stat-cell"><div class="stat-value">7.77%</div><div class="stat-label">Annual growth rate projected through 2030</div></div>
+      <div class="stat-cell"><div class="stat-value">+45.7%</div><div class="stat-label">E-commerce pet food channel growth 2020–2025</div></div>
+    </div>
+    <p class="prose">67% of millennial pet owners — the largest and highest-spending pet demographic — actively seek artisanal, small-batch, natural treats and are willing to pay 40–60% price premiums for them. They are searching for exactly what DOG Bakery makes. The market is there. The demand is there. The gap is discoverability.</p>
+    <div class="callout callout-amber">
+      <p>The online pet treats channel grew 45.7% in five years. Every year that growth happens without a fully functional digital presence is a year of compounding lost revenue — customers who found a competitor instead, repeat buyers who never got a follow-up, email subscribers who never got captured. The cost of inaction isn't zero. It accumulates every single day.</p>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">04</span><h2>Instagram — The Gap Between Effort and Result</h2></div>
+    <div class="metric-table">
+      <div class="metric-row"><div class="metric-key">Handle</div><div class="metric-val">@dogbakeryonline</div></div>
+      <div class="metric-row"><div class="metric-key">Followers</div><div class="metric-val bad">1,611</div></div>
+      <div class="metric-row"><div class="metric-key">Total posts</div><div class="metric-val">1,070</div></div>
+      <div class="metric-row"><div class="metric-key">Engagement rate (last 12 posts)</div><div class="metric-val bad">1.19% — benchmark for this category is 3–6%</div></div>
+      <div class="metric-row"><div class="metric-key">Average likes per post</div><div class="metric-val warn">18</div></div>
+      <div class="metric-row"><div class="metric-key">Average comments per post</div><div class="metric-val bad">1</div></div>
+      <div class="metric-row"><div class="metric-key">Story Highlights</div><div class="metric-val bad">2 highlights — identical unbranded paw print covers</div></div>
+      <div class="metric-row"><div class="metric-key">Bio on mobile</div><div class="metric-val bad">Location truncated — hidden behind "more" tap</div></div>
+    </div>
+
+    <div class="callout">
+      <p>1,070 posts. 1,611 followers. That works out to gaining 1.5 followers per post over the lifetime of this account. A handmade artisan food business posting at the same frequency should realistically expect 15,000–40,000 followers. The effort is real. The return on that effort is not.</p>
+    </div>
+
+    <div class="sub-h">What 1.19% Engagement Actually Costs</div>
+    <p class="prose">An engagement rate of 1.19% means roughly 19 people interact with each post out of 1,611 followers. The benchmark for an artisan food account at this follower range is 3–6% — meaning 48–97 interactions per post. That gap is not cosmetic. Instagram's algorithm uses engagement rate as its primary signal for whether to distribute content to people who don't already follow an account. At 1.19%, the algorithm has learned that this content doesn't generate strong responses, so it limits how widely it pushes the content. The result is a compounding cycle: low engagement leads to lower distribution, which leads to fewer new followers, which leads to lower engagement. The way out of that cycle is not posting more — it's posting content that is specifically engineered to generate real responses.</p>
+
+    <div class="sub-h">What the Reel View Counts Are Saying</div>
+    <p class="prose">DOG Bakery is already posting Reels — the format is correct. The view counts tell a more specific story about what's working:</p>
+    <div class="metric-table">
+      <div class="metric-row"><div class="metric-key">"Smooch the Pooch" Valentine's</div><div class="metric-val good">1,119 views — real customers, real dogs, human moment</div></div>
+      <div class="metric-row"><div class="metric-key">"POV: Your dog found the pot of gold"</div><div class="metric-val good">749 views — POV format, seasonal, product visible</div></div>
+      <div class="metric-row"><div class="metric-key">"Proof the Easter Bunny has a dog"</div><div class="metric-val warn">371 views — product showcase, strong caption, lower reach</div></div>
+    </div>
+    <p class="prose">The "Smooch the Pooch" Reel — real customers, real dogs, a Valentine's event at the store — got three times more views than the product-only Easter Reel. This is not a coincidence. It is Instagram's algorithm measuring how long people watch, and people watch longer when there's a real dog and a real human in the frame than when it's a product pan. The practical implication: more content featuring real dogs, real customers, and real people will consistently outperform product showcases on this account. The product can be in the frame — it should be — but the emotional anchor needs to be living creatures, not cookies.</p>
+
+    <div class="sub-h">Three Specific Reasons Views Aren't Converting to Followers</div>
+    <ul class="bullet-list">
+      <li><strong>The first 0.5 seconds of each Reel aren't doing enough work.</strong> On Instagram, a viewer decides whether to keep watching or scroll within half a second of a video starting. The accounts in this category consistently hitting 20k–100k views open with their single most compelling visual — icing being piped onto a still-warm treat, a dog's eyes going wide at a birthday cookie, the reveal of a full decorated tray. If the first frame is a static wide shot of a display case or a slow pan to establish context, a significant portion of viewers are already gone before the interesting part begins. Editing every Reel to open with its best moment — not its logical beginning — is a change that costs nothing and can meaningfully increase view duration, which is the most important signal Instagram uses to decide how widely to push a video.</li>
+      <li><strong>The hashtags are too large to surface in.</strong> The Easter video uses #dogsofinstagram, #dogtreats, and #easterbunny. These tags collectively have hundreds of millions of posts. Content posted there competes with an enormous volume of other posts and gets buried almost immediately. The correct approach is 3–5 tags in the 50,000–500,000 post range, where the account can actually rank and be discovered by people actively browsing that niche: #gourmetdogtreats, #dogbakery, #handmadedogtreats, #michigandogs, #traversecity. Smaller pools, visible fish.</li>
+      <li><strong>The profile isn't converting Reel viewers into followers.</strong> When someone sees a Reel and taps the profile, they encounter two things: a bio that's truncated on mobile — the location disappears behind a "more" tap — and two Highlights with identical generic paw print covers that communicate nothing about the product range. The Reel earns the profile visit. The profile doesn't close the follow. Fixing the bio and rebuilding the Highlights takes two hours total and directly impacts what percentage of every future Reel viewer converts into a follower.</li>
+    </ul>
+
+    <div class="sub-h">The Bio — Exact Fix</div>
+    <div class="callout callout-green">
+      <p><strong>Current bio truncates on mobile, hiding the location.</strong> A rewritten version that fits within Instagram's 150-character visible limit: "Hand-baked gourmet dog treats 🐾 Woman-owned · Traverse City, MI · Est. 2006 · Free shipping over $75" — followed by a direct website link. Everything visible, nothing cut off, location front and center for tourist discovery.</p>
+    </div>
+
+    <div class="sub-h">The Highlights — What They Should Be</div>
+    <p class="prose">Story Highlights are the first interactive element a new visitor sees on the profile — they function as a brand navigation menu. Two identical sage-green paw print Highlights communicate nothing about what DOG Bakery sells, what its range is, or what makes it worth following. A business with this product depth should have 8 Highlights with custom-branded covers made in Canva (free, approximately two hours): <em>New Arrivals, Seasonal, Birthday, Behind the Scenes, Customer Dogs, Our Ingredients, Reviews, How to Order.</em> Every new visitor from a Reel currently lands on a profile with two identical icons. After this change, they land on a complete, navigable brand.</p>
+  </div>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">05</span><h2>TikTok — The Hidden Asset That Changes Everything</h2></div>
+
+    <div class="insight-box">
+      <div class="insight-label">The Most Important Finding in This Entire Audit</div>
+      <p>@dogbakeryonline on TikTok has <strong>36 followers</strong> and is averaging <strong>9,900 views per video</strong> across its last 15 posts. One video has reached <strong>25,000 views</strong>. This account — with almost no followers, no promotion, and no formal strategy — is already reaching thousands of people per video because TikTok's algorithm has decided the content is worth distributing. That is extraordinary. Most small businesses spend years trying to get TikTok to push their content. DOG Bakery already has it. The only question is what happens next.</p>
+    </div>
+
+    <div class="metric-table">
+      <div class="metric-row"><div class="metric-key">Handle</div><div class="metric-val">@dogbakeryonline</div></div>
+      <div class="metric-row"><div class="metric-key">Followers</div><div class="metric-val bad">36</div></div>
+      <div class="metric-row"><div class="metric-key">Avg. views (last 15 videos)</div><div class="metric-val good">9,900 per video</div></div>
+      <div class="metric-row"><div class="metric-key">Top video</div><div class="metric-val good">"POV: Your dog found the pot of gold" — 25,000 views</div></div>
+      <div class="metric-row"><div class="metric-key">Follower growth rate</div><div class="metric-val good">63.89% — algorithm actively distributing to new audiences</div></div>
+      <div class="metric-row"><div class="metric-key">TikTok Shop</div><div class="metric-val bad">Not found — no product purchase path from videos</div></div>
+      <div class="metric-row"><div class="metric-key">Caption CTAs</div><div class="metric-val warn">Present ("Shop link in bio") but no in-video product tags</div></div>
+    </div>
+
+    <div class="sub-h">Why 9,900 Views With 36 Followers Is Remarkable</div>
+    <p class="prose">On Instagram, reach is largely dictated by follower count. An account with 36 followers realistically expects 50–100 views per post. TikTok works differently — its algorithm distributes content based on how people respond to it, entirely independent of whether they follow the account. DOG Bakery is averaging 9,900 views per video not because of an existing audience, but because TikTok has tested the content on small groups of users, seen strong watch time, and pushed it further. That is algorithmic distribution that most brands pay agencies to try to manufacture. It's happening here organically.</p>
+    <p class="prose">It's worth being honest: TikTok views are not consistent. A 25,000-view video doesn't guarantee the next video performs the same way. The algorithm is responsive to each individual piece of content, not a blanket endorsement of the account. What the 9,900 average does indicate is a baseline of solid distribution — the content profile TikTok has built for this account is working. The goal is to understand why and do more of it.</p>
+
+    <div class="sub-h">The Revenue Gap — 9,900 Views With No Purchase Path</div>
+    <p class="prose">Here is the central problem: thousands of people are watching these videos per post, the caption says "Shop link in bio," and there is no TikTok Shop connected to the account. That means a viewer who wants to buy has to: remember to tap the bio, find the Linktree link, tap through to the website, find the right product, and complete a checkout on a legacy platform not optimized for mobile. Every one of those steps loses a percentage of the audience. Most of them never make it.</p>
+    <p class="prose">TikTok Shop changes this entirely. With Shop enabled, a product tag lives directly in the video. A viewer watches the Easter bunny treats, taps the tag, and purchases without leaving TikTok. That is a complete sales funnel inside a single video. With 9,900 average views and a 0.5% purchase conversion rate — a conservative estimate for an engaged, niche audience — that's 49 sales per video. At a $25 average order value, that's $1,225 in revenue per video posted. The content is already reaching people. The mechanism to turn those viewers into buyers doesn't yet exist.</p>
+
+    <div class="sub-h">What's Working and What to Build On</div>
+    <p class="prose">The POV format is clearly resonating — "POV: Your dog found the pot of gold" reached 25,000 views. This format works because it puts the viewer in the dog's perspective, creating an immediate emotional hook before any product is shown. It's a format worth using regularly across the product range: seasonal drops, birthday treats, new arrivals. Not every video needs to be a POV — variety keeps the feed engaging — but when a format has already proven it can reach 25,000 people on this specific account, it deserves to be the backbone of the content strategy.</p>
+    <p class="prose">The account also occasionally reposts short, charming dog videos from other creators — four posts visible from other accounts. This shows a good instinct for what the audience enjoys, and there's nothing wrong with it in small amounts. The one consideration worth noting is that TikTok's algorithm builds a content profile for each account to determine who to show it to. An account that's primarily original dog treat content, with occasional dog repost content, keeps that profile clear and consistent. It's a small thing, but worth keeping in mind as the account grows.</p>
+
+    <div class="sub-h">The Content Strategy Going Forward</div>
+    <table class="playbook-table">
+      <thead><tr><th>Format</th><th>How to Execute</th><th>Why It Works Here</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>POV (use regularly)</td>
+          <td>Open on the treats. Text overlay: "POV: It's your dog's birthday and your human just walked into DOG Bakery." 20–30 seconds. Trending audio. Let the product do the rest.</td>
+          <td>Already proven on this account. The 25k video used this exact format. It's replicable across every seasonal drop and product line.</td>
+        </tr>
+        <tr>
+          <td>Decoration process</td>
+          <td>Overhead camera. Hands piping icing in real time. No talking required. 15–30 seconds. Find trending audio from #baketok on the For You page.</td>
+          <td>Watch completion on process content is among the highest on TikTok. High completion signals the algorithm to push wider.</td>
+        </tr>
+        <tr>
+          <td>Ingredient comparison</td>
+          <td>Hold each DOG Bakery ingredient to camera — stone ground wheat, real peanuts, whole oats. Then hold up a mass-market treat. Read the label. Let the contrast speak.</td>
+          <td>Transparency content builds trust with the exact buyer demographic willing to pay premium prices for artisan treats. No hard sell needed.</td>
+        </tr>
+        <tr>
+          <td>Dog reaction (UGC)</td>
+          <td>Ask 5 customers to film their dog eating a treat and send it in. Stitch or duet their video. Post it with a product tag.</td>
+          <td>User-generated content converts at 4x the rate of brand-only content. Costs nothing but a DM.</td>
+        </tr>
+        <tr>
+          <td>Before / after</td>
+          <td>Raw dough → finished decorated treat. Hard cut or wipe transition. Text overlay with product name. Trending audio.</td>
+          <td>Transformation is one of TikTok's most reliable viral formats. The reveal creates a natural watch-through moment.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">06</span><h2>Facebook — A Perfect Score That Lives in a Sidebar</h2></div>
+
+    <div class="metric-table">
+      <div class="metric-row"><div class="metric-key">Followers</div><div class="metric-val">5,500</div></div>
+      <div class="metric-row"><div class="metric-key">Reviews</div><div class="metric-val good">217 reviews — 100% recommendation rate</div></div>
+      <div class="metric-row"><div class="metric-key">Average likes per post</div><div class="metric-val warn">~20 — low relative to a 5,500-follower audience</div></div>
+      <div class="metric-row"><div class="metric-key">Facebook Shop</div><div class="metric-val bad">Not connected to online store</div></div>
+      <div class="metric-row"><div class="metric-key">Email capture from page</div><div class="metric-val bad">No mechanism to capture follower emails</div></div>
+      <div class="metric-row"><div class="metric-key">Bio link</div><div class="metric-val warn">Linktree — same as Instagram and TikTok</div></div>
+    </div>
+
+    <div class="insight-box">
+      <div class="insight-label">The Most Underused Asset in This Audit</div>
+      <p>A 100% recommendation rate from 217 reviews is genuinely exceptional. The industry average in this category is 85–92%. DOG Bakery earned a perfect score organically over 18 years, and it lives in a Facebook sidebar that most visitors scroll past. <strong>This number should be on the website homepage. On every product page. In the Instagram bio. In every email. On TikTok.</strong> It is the strongest trust signal this business possesses and it is currently invisible to the vast majority of potential customers.</p>
+    </div>
+
+    <div class="sub-h">Why Post Engagement Is Lower Than It Should Be</div>
+    <p class="prose">Averaging around 20 likes on a 5,500-follower Facebook page is below where this audience could be performing. A benchmark engagement rate of 1–3% on a 5,500-follower page would generate 55–165 interactions per post. Facebook's algorithm distributes content partly based on how prior posts have performed — a consistent pattern of low-engagement posts trains the algorithm to show content to fewer followers over time. This isn't a sign that followers don't care about DOG Bakery. The 100% review score proves they do. It's a sign that the type of content being posted isn't generating the kind of response that signals the algorithm to push it further.</p>
+    <p class="prose">The fastest reset is a post specifically designed to generate comments. Facebook's ranking algorithm weights comments at roughly 8–10x the value of a like. A simple direct question — "What's your dog's all-time favorite treat flavor? Peanut butter, carrot, or something else?" — generates comments. Comments increase reach. Increased reach generates more comments and reactions on the next post. This is where to start.</p>
+
+    <div class="sub-h">The Linktree Note</div>
+    <p class="prose">Many businesses use Linktree in their bios — including competitors in this space — so it's a reasonable choice. The one practical consideration: each Linktree click doesn't register as direct traffic to the website, which is a minor but real factor in how Google measures domain authority over time. It also adds one tap between "I want to buy" and "I'm on the product page," and in mobile ecommerce, every extra step reduces conversion. When the website migrates to Shopify (Action 03), replacing the Linktree with a direct site link is worth considering — Shopify's homepage can serve as the navigation hub that Linktree currently is.</p>
+
+    <div class="sub-h">The Woman-Owned Story — In the Bio, Nowhere Else</div>
+    <p class="prose">It's in the bio. It's not in the content. The most engaged customers on Facebook — the ones writing enthusiastic reviews, celebrating staff anniversaries in the comments — are already emotionally connected to the people behind this business. A content series that leads with the story: how DOG Bakery started, a day in the bakery, the team, 18 years of treats — would generate more engagement than any product post. This kind of content is also highly shareable, which is the primary mechanism for organic follower growth on Facebook in 2026. The story exists. It just hasn't been made into content.</p>
+
+    <div class="two-col">
+      <div class="col-panel good">
+        <h4>What's Working</h4>
+        <ul class="bullet-list green">
+          <li>217 reviews, 100% recommendation rate — industry-leading</li>
+          <li>5,500 warm, loyal followers</li>
+          <li>Genuine human storytelling already present (staff anniversaries, in-store events)</li>
+          <li>Video content being posted with seasonal relevance</li>
+          <li>Cover photo quality is excellent</li>
+          <li>Woman-owned identity visible in bio</li>
+        </ul>
+      </div>
+      <div class="col-panel bad">
+        <h4>What Could Be Stronger</h4>
+        <ul class="bullet-list">
+          <li>100% review score not referenced anywhere outside Facebook</li>
+          <li>Post engagement below audience potential — reach is being limited algorithmically</li>
+          <li>No Facebook Shop — 5,500 followers with no direct in-platform purchase path</li>
+          <li>Posts rarely end with a specific, directed CTA</li>
+          <li>Woman-owned story in bio but not yet used as content</li>
+          <li>Facebook audience siloed from email list and other platforms</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">07</span><h2>Website — Real Strengths, Structural Gaps</h2></div>
+
+    <p class="prose">There is more on the website than is immediately visible. A full About page with genuine brand story — "quality is never an accident," 20+ flavors, an onsite bakery, a staff page, a store tour. A newsletter signup. Detailed ingredient lists and guaranteed analysis on product pages. These are real assets and they reflect a business that takes its product seriously.</p>
+    <p class="prose">The gaps aren't about content that's missing — they're about infrastructure that isn't working hard enough for the business. The platform, the lack of star ratings, and the absence of cross-selling are the three things costing the most revenue right now.</p>
+
+    <div class="callout">
+      <p>The clearest indicator of how long the platform has gone without a meaningful update: product pages include social sharing buttons for Digg and StumbleUpon — platforms that shut down in 2018 and 2017 respectively. This signals to first-time visitors, however subtly, that the site hasn't been actively maintained. First impressions on product pages form in under 400 milliseconds, and a page that feels dated erodes trust before a customer reads a single word of product description.</p>
+    </div>
+
+    <div class="metric-table">
+      <div class="metric-row"><div class="metric-key">Platform</div><div class="metric-val bad">Miva Merchant — legacy system, limited mobile optimization</div></div>
+      <div class="metric-row"><div class="metric-key">About page</div><div class="metric-val good">Exists — real story, staff, store tour, genuine brand voice</div></div>
+      <div class="metric-row"><div class="metric-key">Product descriptions</div><div class="metric-val warn">Ingredients and analysis present — emotional/storytelling layer missing on most</div></div>
+      <div class="metric-row"><div class="metric-key">Star ratings</div><div class="metric-val bad">None — text reviews exist on some pages but no star system</div></div>
+      <div class="metric-row"><div class="metric-key">Newsletter signup</div><div class="metric-val good">Exists — but no incentive offered to sign up</div></div>
+      <div class="metric-row"><div class="metric-key">Cross-sell / upsell</div><div class="metric-val bad">None — every product page is a dead end</div></div>
+      <div class="metric-row"><div class="metric-key">Subscription option</div><div class="metric-val bad">None — every buyer defaults to one-time purchase</div></div>
+      <div class="metric-row"><div class="metric-key">Social share buttons</div><div class="metric-val bad">Includes defunct platforms (Digg, StumbleUpon)</div></div>
+    </div>
+
+    <div class="sub-h">The Star Rating Gap — Why It Matters More Than Any Other Fix</div>
+    <p class="prose">Text reviews exist on some product pages. The Testimonials section has real, enthusiastic customer quotes. The problem is that in 2026, a shopper who lands on a product page from TikTok or Instagram — someone who has never heard of DOG Bakery before — scans for a star rating within the first two seconds. If there isn't one, they make a risk assessment: this product has no verified reviews. For a $20–$40 treat box purchase from an unfamiliar brand, that assessment often ends in a closed tab. The text reviews are real and they're good. They're just invisible to the buyers who need to see them most.</p>
+    <p class="prose">When the website migrates to Shopify, installing a review app like Loox or Judge.me converts existing text reviews into a star-rated system and makes collecting new ones straightforward. Emailing the existing customer base and asking them to leave a rated review — offering 10% off the next order as a thank-you — should yield 50+ star-rated reviews on key products within two weeks of launch. That changes the conversion rate of every product page immediately and permanently.</p>
+
+    <div class="sub-h">The Cross-Sell Problem — Every Product Page Is a Dead End</div>
+    <p class="prose">A customer who finds the birthday cookie and wants to buy it for their dog's birthday lands on a product page with no suggestion that the birthday cake, birthday bone, or birthday box exist. They buy the one item they found. The order closes. The opportunity to increase that order value ends. On Shopify, "Frequently Bought Together" and "You May Also Like" sections are native features that populate automatically based on purchase behavior. The average order value increase from a well-configured cross-sell is 10–30%. On every transaction. For no additional marketing spend.</p>
+
+    <div class="sub-h">The Newsletter — One Change That Makes It Work</div>
+    <p class="prose">The newsletter signup is there — "Sign up to receive coupons, discounts and product updates." That's a reasonable offer. What would make it significantly more effective is a specific, immediate incentive: "Sign up and get 15% off your first order." The difference between "sign up for updates" and "sign up and get something right now" is the difference between a 0.5% and a 3–6% signup rate. The email list that gets built from that offer is the highest-lifetime-value asset in ecommerce — each subscriber averages $5–20 in annual revenue. A list of 2,000 subscribers built over 12 months generates $10,000–$40,000 in annual revenue that didn't exist before.</p>
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">08</span><h2>Google — Solid Foundation, Active Threat</h2></div>
+
+    <div class="metric-table">
+      <div class="metric-row"><div class="metric-key">Google rating</div><div class="metric-val good">4.8 stars</div></div>
+      <div class="metric-row"><div class="metric-key">Google reviews</div><div class="metric-val warn">105 — strong but well below what's achievable</div></div>
+      <div class="metric-row"><div class="metric-key">Current primary category</div><div class="metric-val warn">Pet supply store — could be optimized</div></div>
+      <div class="metric-row"><div class="metric-key">Products in search panel</div><div class="metric-val good">Product images showing directly in Google results</div></div>
+      <div class="metric-row"><div class="metric-key">Primary Knowledge Panel photo</div><div class="metric-val warn">Storefront — not product photography</div></div>
+      <div class="metric-row"><div class="metric-key">Active competitor paid ads</div><div class="metric-val bad">Three Dog Bakery bidding on "Dog Bakery Traverse City" searches</div></div>
+    </div>
+
+    <div class="callout">
+      <p>When someone in Traverse City searches "Dog Bakery Traverse City" — the most direct possible brand search — the first thing they see is a paid advertisement for Three Dog Bakery, a private equity-backed national chain. Three Dog Bakery is actively paying to intercept DOG Bakery's own customers at the exact moment those customers are searching for DOG Bakery. This is a measurable, ongoing revenue leak that is happening right now.</p>
+    </div>
+
+    <div class="sub-h">The Category Question</div>
+    <p class="prose">Google Business Profile doesn't have a specific "Pet Bakery" category, but it does have a "Bakery" category alongside "Pet Store." The current listing uses "Pet supply store" as its primary category. Adding "Bakery" as a secondary category — or switching the primary to "Pet Store," which has broader search applicability — would expand the search queries that surface the listing. Specifically, searches like "dog bakery near me," "gourmet dog treats Traverse City," and "handmade dog treats Michigan" would trigger the listing more reliably. This is a 5-minute change in the Google Business Profile dashboard with no downside.</p>
+
+    <div class="sub-h">Getting from 105 Reviews to 250</div>
+    <p class="prose">4.8 stars from 105 reviews is excellent. The Linktree already includes a "Leave us a Google review" button — which shows awareness of the gap. The issue is that asking once in a bio link doesn't generate the volume of reviews the business deserves. A Google review request should appear in three places it currently doesn't: in every post-purchase email, as a physical card included with every online order (with a QR code), and as a monthly Facebook post. Getting to 200+ reviews at 4.8 stars makes DOG Bakery the standout result for local and regional dog treat searches in northern Michigan — and a stronger result in that position than Three Dog Bakery's paid ad.</p>
+  </div>
+
+  <!-- 09 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">09</span><h2>Competitive Landscape — The Real Picture</h2></div>
+    <p class="prose">The competitive context is more nuanced than large versus small. The national chains have budgets and distribution. DOG Bakery has something they cannot replicate: 18 years of authentic craft, a real physical location, a woman-owned story, a perfect review score, and a local community that genuinely loves them. The question is whether those advantages get activated digitally.</p>
+    <table class="comp-table">
+      <thead><tr><th>Competitor</th><th>Instagram</th><th>What They Have</th><th>What DOG Bakery Has That They Don't</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Bocce's Bakery</td>
+          <td>94.2k followers<br>2,809 posts</td>
+          <td>Dedicated content team, consistent Reels, national retail presence</td>
+          <td>Fresh-baked product (not packaged), real local story, 18-year craft history</td>
+        </tr>
+        <tr>
+          <td>Woof Gang Bakery</td>
+          <td>73.6k followers<br>12,500 posts</td>
+          <td>450+ franchise locations, grooming services, broad brand recognition</td>
+          <td>Independent ownership, non-corporate identity, woman-owned authenticity</td>
+        </tr>
+        <tr>
+          <td>Three Dog Bakery</td>
+          <td>32.1k followers<br>590 posts</td>
+          <td>PetSmart retail shelf space, PE-backed marketing budget, paid Google ads</td>
+          <td>DOG Bakery's product is genuinely hand-crafted; Three Dog Bakery's is not</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout callout-green">
+      <p>Something worth noting: Three Dog Bakery has 32,100 Instagram followers after 590 posts. DOG Bakery has 1,611 after 1,070 posts. Three Dog Bakery achieves 54 followers per post; DOG Bakery achieves 1.5. Three Dog Bakery has PE-backing and a national marketing team. The content strategy — not the budget — is what's creating that gap. A focused content strategy change, not an increased spend, is what closes it.</p>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">10</span><h2>Priority Action Plan</h2></div>
+    <p class="prose">Six actions, sequenced by impact. Each one is written as a specific instruction with a clear rationale and a measurable outcome. Read each one not as a suggestion to consider, but as a decision to make.</p>
+
+    <div class="action-card">
+      <div class="action-header">
+        <span class="action-num">ACTION 01</span>
+        <span class="action-title">Set Up TikTok Shop — Convert 9,900 Views Into Revenue</span>
+        <span class="badge badge-red">CRITICAL</span>
+        <span class="badge badge-gray">This Week</span>
+      </div>
+      <div class="action-body">
+        <div class="action-context">The TikTok account is already reaching an average of 9,900 people per video. Captions already direct viewers to "shop link in bio." The conversion path from "I watched this video" to "I bought something" currently requires a viewer to navigate away from TikTok, find the Linktree, tap through to the website, locate the product, and complete a checkout on a legacy platform. Most of them don't make it. TikTok Shop eliminates every one of those steps.</div>
+        <ul class="bullet-list">
+          <li><strong>Go to seller.tiktok.com and set up TikTok Shop for @dogbakeryonline.</strong> Connect the account to the Seller Center. List the top 8 products: birthday treats, seasonal box, Easter treats, classic treats by the pound, decorated treats, grain-free treats, horse treats, and a gift card. This takes 2–3 hours. Once live, any video can have a product tagged directly in the frame — a viewer taps it and purchases without leaving the app. That is the entire funnel inside a single video.</li>
+          <li><strong>The math on why this matters:</strong> 9,900 average views × 0.5% purchase conversion = 49 sales per video. At a $25 average order value, that is $1,225 in potential revenue per video posted. TikTok view counts vary from video to video — one video reaching 25,000 doesn't mean the next will too. But even on a 3,000-view video, 0.5% conversion is 15 sales. The content is already being watched. The purchase mechanism doesn't yet exist.</li>
+          <li><strong>Tag the relevant product in every video going forward.</strong> The captions already say "shop link in bio" — adding a product tag in the video itself brings that purchase intent directly into the viewing experience, where it belongs. This is one additional step in the editing process and directly increases the likelihood that a viewer converts.</li>
+          <li><strong>Continue posting 4–5 times per week.</strong> TikTok rewards consistent posting with more consistent distribution. The current posting appears irregular. A five-day-per-week cadence for 60 days, combined with TikTok Shop, is the highest-ROI 60-day investment available across any platform in this audit.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <span class="action-num">ACTION 02</span>
+        <span class="action-title">Rebuild the Instagram Strategy Around What the Data Shows Works</span>
+        <span class="badge badge-red">CRITICAL</span>
+        <span class="badge badge-gray">Week 1–2</span>
+      </div>
+      <div class="action-body">
+        <div class="action-context">The account is posting Reels. The content instinct is real — "Proof the Easter Bunny has a dog" and "Smooch the Pooch" show genuine creativity. The problem is that the strategy behind the content isn't being informed by what the data shows actually works on this specific account. Three specific, measurable changes will shift the trajectory.</div>
+        <ul class="bullet-list">
+          <li><strong>Shift the content mix toward people-and-dogs.</strong> The "Smooch the Pooch" Valentine's Reel — real customers, real dogs, a human moment at the store — reached 1,119 views. The product-only Easter Reel reached 371. That's a 3x difference from the same account in the same week. Instagram's algorithm measures how long people watch, and people watch longer when there's a living creature in the frame. The goal isn't to stop showing the product — the product should be there — but to anchor every Reel in a human or dog moment first. Product second.</li>
+          <li><strong>Edit every Reel to open with its strongest visual moment.</strong> Watch the first 0.5 seconds before posting. Ask: is this the most visually compelling moment in this video? If not, re-cut. The icing being piped, the dog taking its first bite, the reveal of a finished seasonal tray — these belong at the start, not after 3 seconds of establishing context. This single editing discipline, applied consistently, can double view duration. Higher view duration tells the algorithm the content is worth pushing to more people.</li>
+          <li><strong>Replace the hashtag strategy.</strong> Current tags like #dogsofinstagram and #dogtreats have over 100M and 20M posts respectively. Content posted there is instantly buried. Switch to 4–5 tags in the 50,000–500,000 range where the account can rank and be discovered: #gourmetdogtreats, #dogbakery, #handmadedogtreats, #michigandogs, #traversecity. This costs nothing and changes which audiences the content surfaces to.</li>
+          <li><strong>Rewrite the bio and rebuild the Highlights this week.</strong> The bio fix takes 3 minutes. The Highlights rebuild — 8 custom-branded covers in Canva — takes two hours. Both changes permanently improve how every future profile visitor experiences the brand. Instructions in Section 04.</li>
+          <li><strong>Add a 15-minute daily engagement routine.</strong> Find 10 dog owner accounts in Michigan with 5,000–50,000 followers. Leave one specific, genuine comment per account per day. Not "cute!" — something that references the actual post. This signals to the algorithm that @dogbakeryonline is an active participant in the dog community, which improves distribution. It also generates profile visits and follows from the accounts being engaged with. This is the fastest free follower growth method available and it's not currently happening.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <span class="action-num">ACTION 03</span>
+        <span class="action-title">Migrate to Shopify — The Infrastructure That Unlocks Everything Else</span>
+        <span class="badge badge-amber">HIGH</span>
+        <span class="badge badge-gray">Month 1–2</span>
+      </div>
+      <div class="action-body">
+        <div class="action-context">The current platform has real content on it — an About page, ingredient lists, a newsletter signup, genuine product care. What it doesn't have is the infrastructure to convert the traffic being generated. Shopify is not a reinvention of the website. It's replacing the engine under the existing content with one that actually converts.</div>
+        <ul class="bullet-list">
+          <li><strong>Shopify Basic is $39/month.</strong> Migration from Miva Merchant takes 2–4 weeks. The entire product catalog, customer data, and order history can be imported. The ROI case is direct: if the current platform converts at under 1% and Shopify's average is 1.5–3%, the improvement in conversion rate on existing traffic pays for the migration within the first month.</li>
+          <li><strong>On launch day: install a review app (Loox or Judge.me) and email the entire customer list.</strong> Subject line: "We just launched a new site — would you help us with one thing?" Ask for a star-rated review. Offer 10% off next order as a thank-you. The existing text testimonials can be imported as a starting base. Target: 50 star-rated reviews on the top 10 products within the first two weeks. Star ratings on product pages are the single highest-impact conversion rate improvement available to this business.</li>
+          <li><strong>Add cross-sell sections to every product page.</strong> A customer buying a birthday cookie should see the birthday cake, bone, and birthday box before checkout. This is a native Shopify feature. The average order value increase from well-configured cross-selling is 10–30% per transaction — on every order, permanently, with no additional marketing cost.</li>
+          <li><strong>Add a subscription option to the top 3 products.</strong> "Subscribe and save 10% — delivered monthly." Subscription customers have 3–5x the lifetime value of one-time buyers. This is recurring monthly revenue that currently doesn't exist in the business.</li>
+          <li><strong>Update the newsletter signup with a specific incentive.</strong> Change "Sign up to receive coupons, discounts and product updates" to "Sign up for 15% off your first order." The immediate incentive changes signup rates from roughly 0.5% to 3–6% of site visitors. Over 12 months, the email list that builds from this offer generates compounding repeat purchase revenue from every subscriber.</li>
+          <li><strong>Add 4 blog posts on launch.</strong> "How we make our birthday cakes." "The difference between handmade and mass-market dog treats." "Best treats for dogs with sensitive stomachs." "18 years of DOG Bakery — how it started." Each targets a real search query. Each drives organic Google traffic indefinitely after it's published. The About page story is compelling — the blog is where that story gets found by people who are actively searching.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <span class="action-num">ACTION 04</span>
+        <span class="action-title">Activate Facebook — Turn a Loyal Audience Into an Active Revenue Channel</span>
+        <span class="badge badge-amber">HIGH</span>
+        <span class="badge badge-gray">Week 2–3</span>
+      </div>
+      <div class="action-body">
+        <ul class="bullet-list">
+          <li><strong>Post a comment-generating question today — before anything else on this list.</strong> "What's your dog's all-time favorite treat flavor? Peanut butter, carrot, or something else?" Facebook's algorithm weights comments at 8–10x the value of a like. A post that generates 20+ comments immediately increases the reach of the next post. This is the fastest algorithm reset available and it costs nothing but a question.</li>
+          <li><strong>Make the 100% recommendation score visible everywhere.</strong> It should be on the website homepage. On every product page. In the Instagram bio. In every post-purchase email. In TikTok captions. "217 customers. 100% would recommend." This is the strongest trust signal the business has and it currently lives only in a Facebook sidebar. The About page story is compelling — but "100% of customers recommend us" closes sales in a way that storytelling alone doesn't.</li>
+          <li><strong>Connect Facebook Shop via Shopify integration (20 minutes once the migration is live).</strong> This turns every Facebook post into a direct sales opportunity for 5,500 followers. The Easter treat video gets a "Shop Now" tag. The birthday treats post gets a product link. Every post becomes a channel, not just a broadcast.</li>
+          <li><strong>End every post with one specific, directed CTA.</strong> Not "visit our website." Instead: "Order the Easter box — link in bio." Or "Follow us on TikTok for daily behind-the-scenes." Or "Sign up for 15% off — link in bio." One direction per post. Every post. The content exists and it's good — it just needs to tell people what to do next.</li>
+          <li><strong>Launch a monthly "tag your dog" contest.</strong> "Tag a friend whose dog deserves a treat box. One winner gets $50 store credit." This generates comments, tags that extend reach to non-followers, and email capture opportunity. Cost: one treat box per month. Return: organic reach expansion and new follower acquisition every time.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <span class="action-num">ACTION 05</span>
+        <span class="action-title">Fix Google — Two Quick Wins and a 90-Day Review Push</span>
+        <span class="badge badge-amber">HIGH</span>
+        <span class="badge badge-gray">Week 1</span>
+      </div>
+      <div class="action-body">
+        <ul class="bullet-list">
+          <li><strong>Update the Google Business Profile category.</strong> Log in, go to Business Information, and add "Bakery" as a secondary category alongside the existing "Pet Store" primary. This expands the search queries that surface the listing — "dog bakery near me," "gourmet dog treats Traverse City," "handmade dog treats Michigan" — immediately and at no cost. Five minutes of work, permanent benefit.</li>
+          <li><strong>Change the primary Knowledge Panel photo to a product shot.</strong> The current primary photo shows the storefront exterior. A potential customer searching for dog treats in Traverse City sees a building. The primary photo should be the most compelling product image in the library — the St. Patrick's Day decorated treats, the birthday cake, the Easter box. Product photography in the Knowledge Panel directly increases click-through rate from search results.</li>
+          <li><strong>Respond to all 105 existing Google reviews within the next two weeks.</strong> Google's algorithm surfaces businesses that engage with their reviews. Responses are also publicly visible to every future visitor who reads the reviews — they function as a second layer of customer service demonstration. A warm, specific response to a positive review ("So happy your pup loved the birthday treats — we made those by hand in our Traverse City bakery!") is also a secondary marketing message visible in search results.</li>
+          <li><strong>Build a three-channel Google review push.</strong> Add a review request to every post-purchase email. Include a physical QR code card in every online order. Post a monthly Facebook request. Getting from 105 to 200+ reviews at 4.8 stars makes DOG Bakery the dominant organic result for local dog treat searches in northern Michigan — and more prominent than Three Dog Bakery's paid ad in the results that matter most to local customers.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-header">
+        <span class="action-num">ACTION 06</span>
+        <span class="action-title">Build a Micro-Influencer Pipeline — The Channel That Compounds</span>
+        <span class="badge badge-teal">GROWTH</span>
+        <span class="badge badge-gray">Month 2</span>
+      </div>
+      <div class="action-body">
+        <div class="action-context">Micro-influencers — dog accounts with 5,000–50,000 followers — have engagement rates of 8–15%, compared to 1–3% for large accounts. Their audiences trust them. Their recommendations convert. And they are accessible to any business willing to send a treat box and a genuine message.</div>
+        <ul class="bullet-list">
+          <li><strong>Find 20 dog accounts in Michigan and surrounding states with 5,000–50,000 followers.</strong> Search #michigandogs, #ohiodogs, #chicagodogs on Instagram and TikTok. Look for accounts where the dog owner is clearly present — not just an anonymous dog account — and where comments are genuine and specific, not generic. Engagement quality matters more than follower count.</li>
+          <li><strong>Send this message:</strong> "Hi [name] — we're a woman-owned dog bakery that's been hand-baking gourmet treats in Traverse City, Michigan since 2006. We'd love to send [dog] a complimentary box — no strings attached. If [dog] loves them and you'd like to share, we'd be grateful for a tag. Either way, we hope they enjoy." This works because it gives first, asks for nothing, and doesn't feel like a pitch.</li>
+          <li><strong>Budget $500 for the first round — roughly 15 boxes at $30–40 each.</strong> A single post from a 15,000-follower Michigan dog account with a 10% engagement rate generates 1,500 direct engagements and an estimated 300–600 profile visits. At a 2% purchase conversion from those visits, that's 6–12 sales per influencer post. At $30 average order, each $35 treat box investment returns $180–$360 in first-order revenue — before any repeat purchasing is counted.</li>
+          <li><strong>Amplify every post that goes live.</strong> Share it to Instagram Stories. Repost to Facebook. Use it as a TikTok duet with permission. User-generated content from a real dog owner converts at 4x the rate of brand-created content. One good influencer post fuels two to three weeks of content across every platform.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">11</span><h2>What's Already Working — Protect These</h2></div>
+    <div class="strength-table">
+      <div class="strength-row">
+        <div class="strength-key">TikTok algorithm traction</div>
+        <div class="strength-val">9,900 average views per video with 36 followers is a distribution rate most small businesses spend years trying to achieve. TikTok has built a content profile for this account and is pushing it to relevant audiences. This is the most valuable digital asset the business currently has. Everything in Action 01 is designed to capitalize on it before it's discovered and acted upon.</div>
+      </div>
+      <div class="strength-row">
+        <div class="strength-key">100% recommendation rate</div>
+        <div class="strength-val">217 Facebook reviews at 100% recommendation is a perfect score that most businesses in this category never reach. Competitors average 85–92%. This number should be on the homepage, every product page, the Instagram bio, every email, and every piece of marketing. It is currently confined to a Facebook sidebar.</div>
+      </div>
+      <div class="strength-row">
+        <div class="strength-key">The About page story</div>
+        <div class="strength-val">The website's About page has a genuinely compelling brand narrative — "quality is never an accident," 18 years in the same location, 20+ flavors, baked fresh on-site, the philosophy of employing the best staff and never wavering. This is the story that differentiates DOG Bakery from every chain competitor. It lives on one page. It should be the backbone of TikTok content, Facebook storytelling, and the website homepage.</div>
+      </div>
+      <div class="strength-row">
+        <div class="strength-key">Woman-owned identity</div>
+        <div class="strength-val">In the bio. Nowhere else. Woman-owned small businesses that make their story central to their content — not just declare it in a single line — consistently build stronger community loyalty and higher repeat purchase rates in the pet space. This is an unactivated content angle with proven audience resonance.</div>
+      </div>
+      <div class="strength-row">
+        <div class="strength-key">Visual product range</div>
+        <div class="strength-val">Decorated treats, birthday cakes, seasonal items, grain-free options, horse treats — the breadth and visual quality of the product line is a camera-ready asset. The St. Patrick's Day treats, the Easter bunnies, the birthday pup cookie — these are the kind of images that stop people mid-scroll. The product is already doing the work. The distribution strategy needs to match it.</div>
+      </div>
+      <div class="strength-row">
+        <div class="strength-key">Traverse City location</div>
+        <div class="strength-val">Traverse City draws significant tourist traffic. Visitors who discover DOG Bakery during a trip become online customers after they leave — and they talk about it. The "Located inside @petsnaturallytc" detail is an underused discovery hook for both locals and the large tourist audience that passes through annually. Content tagged with Traverse City and northern Michigan reaches both groups.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">12</span><h2>90-Day Implementation Roadmap</h2></div>
+    <div class="roadmap">
+      <div class="roadmap-row rhead">
+        <div class="roadmap-phase">Phase</div>
+        <div class="roadmap-actions">Actions</div>
+        <div class="roadmap-metric">What Success Looks Like</div>
+      </div>
+      <div class="roadmap-row">
+        <div class="roadmap-phase">Week 1<span>Immediate</span></div>
+        <div class="roadmap-actions">Set up TikTok Shop. Update Google Business category — add Bakery. Change Knowledge Panel primary photo to product shot. Respond to all 105 Google reviews. Post comment-generating question on Facebook. Rewrite Instagram bio. Begin daily TikTok posts.</div>
+        <div class="roadmap-metric">TikTok Shop live with 8 products. Google category updated. Facebook engagement beginning to recover. Instagram bio fixed and visible in full on mobile.</div>
+      </div>
+      <div class="roadmap-row">
+        <div class="roadmap-phase">Week 2–3<span>Foundation</span></div>
+        <div class="roadmap-actions">Rebuild Instagram Highlights in Canva. Begin 15-minute daily Instagram engagement routine. Start Shopify migration. Apply POV format + people-and-dogs content mix to next 10 TikTok videos. DM 15 Michigan dog accounts with treat box offer. Update newsletter to offer 15% off incentive.</div>
+        <div class="roadmap-metric">New Highlights live. 15 influencer packages sent. Shopify migration in progress. Instagram engagement rate beginning to trend up.</div>
+      </div>
+      <div class="roadmap-row">
+        <div class="roadmap-phase">Month 2<span>Infrastructure</span></div>
+        <div class="roadmap-actions">Launch Shopify. Install review app + email campaign for star-rated reviews. Add cross-sell to every product page. Add subscription option to top 3 products. Connect Facebook Shop. First influencer posts going live — amplify across all platforms.</div>
+        <div class="roadmap-metric">50+ star-rated reviews on key products. Subscription products live. Facebook Shop connected. First influencer UGC being shared. 300+ email subscribers from pop-up.</div>
+      </div>
+      <div class="roadmap-row">
+        <div class="roadmap-phase">Month 3<span>Growth</span></div>
+        <div class="roadmap-actions">Publish 4 blog posts. Launch monthly Facebook "tag your dog" contest. Analyze TikTok — identify top 3 performing video formats and increase their frequency. Add Google review QR card to all orders. Second round of influencer outreach.</div>
+        <div class="roadmap-metric">TikTok at 300–1,000 followers. Instagram engagement above 3%. Google review count growing toward 200. Blog driving first organic search traffic. Monthly contest running with consistent participation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="section">
+    <div class="section-header"><span class="section-num">13</span><h2>Closing</h2></div>
+    <p class="prose">Most businesses at this stage would need to build the foundation from scratch. DOG Bakery doesn't. The product is exceptional. The customers are loyal. The story is real and compelling. The TikTok algorithm is already distributing content to thousands of people per video. The reviews are perfect. The woman-owned identity is a genuine differentiator. Nearly 20 years of craft have built something that competitors with PE backing and franchise networks cannot replicate.</p>
+    <p class="prose">Every recommendation in this report is about removing what's between this business and the customers who are looking for it — the friction between a TikTok viewer and a purchase, the gap between a loyal customer and a star rating on a product page, the distance between 9,900 video views and a transaction. None of it requires starting over. All of it requires acting.</p>
+    <div class="insight-box">
+      <div class="insight-label">The Number That Matters Most</div>
+      <p>An account with <strong>36 followers</strong> is averaging <strong>9,900 views per video</strong> on TikTok. That is the algorithm signaling: this content is worth showing to people who have never heard of you. The infrastructure to turn that attention into revenue — TikTok Shop, a product tag, a clear call to action — doesn't yet exist. That is the first thing to build. Everything else in this report follows from it.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="doc-footer">
+  <span>DOG Bakery by Pets Naturally — Digital Presence Audit — March 2026</span>
+  <span>Independent analysis. All data sourced from direct platform observation. Confidential.</span>
+</div>
+
+</body>
+</html>
